@@ -1,30 +1,41 @@
-const { NotImplementedError } = require('../extensions/index.js');
+function deleteCurrent(parentNode) {
+  if (parentNode.next.next) {
+    parentNode.next = parentNode.next.next;
+  } else {
+    parentNode.next = null;
+  }
+}
 
-// const { ListNode } = require('../extensions/list-node.js');
+function check(node, value) {
+  if (node.value === value) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
-/**
- * Given a singly linked list of integers l and an integer k,
- * remove all elements from list l that have a value equal to k.
- *
- * @param {List} l
- * @param {Number} k
- * @return {List}
- *
- * @example
- * For l = [3, 1, 2, 3, 4, 5] and k = 3,
- * the output should be [1, 2, 4, 5]
- *
- * Singly - linked lists are already defined using interface
- * class ListNode {
- *   constructor(x) {
- *     this.value = x;
- *     this.next = null;
- *   }
- * }
- */
-function removeKFromList(/* l, k */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function checkNodeAndDelete (node, value) {
+  if (node.next) {
+    if (check(node.next, value)) {
+      checkNodeAndDelete(node.next, value);
+      deleteCurrent(node);
+    }
+  }
+}
+
+function iterate (node, value) {
+  checkNodeAndDelete(node, value);
+  if (node.next) {
+    iterate(node.next, value);
+  }
+}
+
+function removeKFromList(l, k) {
+  if (check(l, k)) {
+    l = l.next;
+  }
+  iterate(l, k);
+  return l;
 }
 
 module.exports = {
